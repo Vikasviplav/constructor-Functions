@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Product</title>
+    <link href="./product.css" rel="stylesheet">
+</head>
+
+<body>
+    <h1 id="counter" style="text-align: center;"></h1>
+
+    <div id="container"></div>
+</body>
+<script>
+    let productArr = JSON.parse(localStorage.getItem("productList"));
+
+    let container = document.getElementById("container");
+
+    let counter = document.getElementById("counter");
+
+    counter.innerText = "Total Item : "  + productArr.length;
+
+    productArr.forEach( e=> {
+       
+
+
+        let name = document.createElement("h1");
+        name.innerText = e.name;
+
+        let image = document.createElement("img");
+        image.src = e.image;
+        image.id = "img"
+
+        let price = document.createElement("p");
+        price.innerText = "₹ " + e.price;
+        price.style.marginTop = "-15px";
+
+        let product = document.createElement("div");
+        product.id = "product";
+
+        let sold = document.createElement("button");
+        sold.id = "sold";
+        sold.innerText = "Sold";
+
+        let remove = document.createElement("button");
+        remove.id = "remove";
+        remove.innerText = "Remove"
+
+        
+
+        if (e.sold == "true") {
+            sold.style.backgroundColor = "red"
+        } else {
+            sold.style.backgroundColor = "green"
+        }
+
+
+        remove.addEventListener("click", function () {
+            productArr.splice(i, 1);
+            localStorage.setItem('productList', JSON.stringify(productArr));
+            alert("Item Removed");
+            window.location.reload();
+        })
+
+        sold.addEventListener("click", function () {
+            if (e.sold == "true") {
+                e.sold = "false";
+            } else {
+                e.sold = "true";
+            }
+
+            if (e.sold == "true") {
+                sold.style.backgroundColor = "red"
+            } else {
+                sold.style.backgroundColor = "green"
+            }
+
+            localStorage.setItem('productList', JSON.stringify(productArr));
+            window.location.reload();
+
+        })
+
+        product.append(image, name, price, remove, sold);
+
+        container.append(product)
+    })
+</script>
+
+</html>
